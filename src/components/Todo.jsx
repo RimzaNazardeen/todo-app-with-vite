@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import TodoItems from './TodoItems'
 
 const Todo = () => {
@@ -32,6 +32,22 @@ const Todo = () => {
         })
     }
 
+    // function to check completed tasks
+    const toggle = (id)=>{
+        setTodoList((previousTodo)=>{
+            return previousTodo.map((todo)=>{
+                if (todo.id === id) {
+                    return {...todo, isComplete: !todo.isComplete}
+                }
+                return todo;
+            })
+        })
+    }
+
+    useEffect(()=>{
+       localStorage.setItem("todos", todoList, JSON.stringify(todoList))
+    }, [todoList])
+
   return (
     <div className='bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl'>
       
@@ -54,7 +70,7 @@ const Todo = () => {
 
             {todoList.map((item, index)=> {
                 return <TodoItems key={index} text={item.text} id={item.id} isComplete={item.isComplete}
-                deleteTodo={deleteTodo}/>
+                deleteTodo={deleteTodo} toggle={toggle}/>
             })}
 
         </div>
