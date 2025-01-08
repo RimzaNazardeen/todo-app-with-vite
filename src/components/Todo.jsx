@@ -1,14 +1,35 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import TodoItems from './TodoItems'
 
 const Todo = () => {
+
+    const [todoList, setTodoList] = useState([]);
     
     const inputRef = useRef();
 
-
+    // function to add tasks
     const add = () =>{
-        const inputText = inputRef.current.value;
-        console.log(inputText);
+        const inputText = inputRef.current.value.trim();
+    
+        if (inputText === "") {
+            return null;
+        }
+
+        const newTodo = {
+            id: Date.now(),
+            text: inputText,
+            isComplete: false,
+        }
+        setTodoList((prev)=> [...prev, newTodo]);
+        inputRef.current.value = "";
+    }
+
+
+    // function to delete
+    const deleteTodo = (id)=>{
+        setTodoList((prevTodos)=>{
+            return prevTodos.filter((todo) =>todo.id !== id)
+        })
     }
 
   return (
@@ -30,8 +51,12 @@ const Todo = () => {
 
     {/* ---todo list--- */}
         <div>
-            <TodoItems text="Learn React"/>
-            <TodoItems text="Do Exercise"/>
+
+            {todoList.map((item, index)=> {
+                return <TodoItems key={index} text={item.text} id={item.id} isComplete={item.isComplete}
+                deleteTodo={deleteTodo}/>
+            })}
+
         </div>
 
     </div>

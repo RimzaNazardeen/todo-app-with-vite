@@ -2,7 +2,7 @@ import React from 'react'
 import tick from '../assets/check_circle.png'
 import delete_icon from '../assets/delete.png'
 
-const TodoItems = ({text}) => {
+const TodoItems = ({text, id, isComplete, deleteTodo}) => {
   return (
     <div className='flex items-center my-3 gap-2'>
       
@@ -11,7 +11,7 @@ const TodoItems = ({text}) => {
             <p className='text-slate-700 ml-4 text-[17px]'>{text}</p>
         </div>
         
-        <img src={delete_icon} alt="" className='w-6 cursor-pointer'/>
+        <img onClick={()=>{deleteTodo(id)}} src={delete_icon} alt="delete button" className='w-6 cursor-pointer'/>
       
     </div>
   )
